@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neon Rig Login</title>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Poppins, sans-serif;
+    }
+
+    body {
+        background: #0a0a0a;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    #ringCanvas {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+        filter: blur(3px) brightness(1.2);
+    }
+
+    .login-box {
+        width: 380px;
+        padding: 30px;
+        text-align: center;
+        z-index: 5;
+    }
+
+    h2 {
+        color: #fff;
+        font-size: 32px;
+        margin-bottom: 25px;
+    }
+
+    .input-box {
+        margin: 20px 0;
+        text-align: left;
+    }
+
+    .input-box input {
+        width: 100%;
+        padding: 13px 20px;
+        border: 2px solid #fff;
+        border-radius: 30px;
+        background: transparent;
+        color: #fff;
+        font-size: 16px;
+        outline: none;
+    }
+
+    label {
+        color: #ccc;
+        margin-top: 8px;
+        display: block;
+        font-size: 14px;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 13px;
+        margin-top: 20px;
+        font-size: 18px;
+        background: linear-gradient(90deg, #ff3a6e, #ffe56a);
+        color: white;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+    }
+
+    .links {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .links a {
+        color: #ccc;
+        text-decoration: none;
+    }
+</style>
+
+</head>
+<body>
+    <button id="loginBtn" class="login-btn">Login</button>
+
+
+<canvas id="ringCanvas" width="600" height="600"></canvas>
+
+<div class="login-box">
+    <h2>Login</h2>
+
+    <div class="input-box">
+        <input type="text">
+        <label>Username</label>
+    </div>
+
+    <div class="input-box">
+        <input type="password">
+        <label>Password</label>
+    </div>
+
+    <!-- 🔥 YAHAN BUTTON SAHI JAGAH PAR HAI -->
+    <button class="btn" onclick="window.location.href='index.html'">
+        Sign in
+    </button>
+
+    <div class="links">
+        <a href="#">Forget Password</a>
+        <a href="#">Signup</a>
+    </div>
+</div>
+
+<script>
+/* --- Neon Rig Animation --- */
+
+const canvas = document.getElementById("ringCanvas");
+const ctx = canvas.getContext("2d");
+let angle = 0;
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let cx = canvas.width / 2;
+    let cy = canvas.height / 2;
+    let baseR = 200;
+
+    for (let i = 0; i < 3; i++) {
+        ctx.beginPath();
+
+        for (let a = 0; a < Math.PI * 2; a += 0.02) {
+            let wave = Math.sin(a * 6 + angle + i * 2) * 10;
+            let r = baseR + wave + i * 10;
+
+            let x = cx + Math.cos(a) * r;
+            let y = cy + Math.sin(a) * r;
+
+            if (a === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+
+        ctx.strokeStyle = ["#ff005e", "#ffdf40", "#00ff70"][i];
+        ctx.lineWidth = 4;
+        ctx.shadowBlur = 25;
+        ctx.shadowColor = ctx.strokeStyle;
+        ctx.stroke();
+    }
+
+    angle += 0.03;
+    requestAnimationFrame(draw);
+}
+draw();
+</script>
+
+</body>
+</html>

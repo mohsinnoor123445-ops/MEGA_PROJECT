@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journey - Mohsin Noor</title>
+  <style>
+    /* ===== RESET & BASE ===== */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Poppins', sans-serif; background:#000; color:#fff; overflow-x:hidden; }
+    a { text-decoration:none; color:inherit; }
+    ::selection { background:#FFD700; color:#000; }
+
+    /* ===== BACKGROUND OVERLAY ===== */
+    body::before {
+      content:""; position:fixed; inset:0; z-index:-1;
+      background:linear-gradient(135deg, rgba(2,6,23,0.5), rgba(0,0,0,0.8));
+    }
+
+    /* ===== NAVBAR ===== */
+    nav {
+      position: fixed; top:25px; left:50%; transform:translateX(-50%);
+      background: rgba(255,255,255,0.05); backdrop-filter: blur(10px);
+      border-radius:50px; padding:15px 35px; display:flex; gap:25px; z-index:100;
+      border:1px solid rgba(255,255,255,0.1); box-shadow:0 0 25px rgba(0,255,255,0.1);
+    }
+    nav a { color:#ccc; font-weight:500; position:relative; padding:5px 0; transition:0.3s; }
+    nav a.active, nav a:hover { color:#FFD700; }
+    nav a::after {
+      content:""; position:absolute; left:0; bottom:-4px; height:2px; width:0; background:#FFD700; transition:width 0.3s ease;
+    }
+    nav a:hover::after, nav a.active::after { width:100%; }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height:50vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+      text-align:center; padding:120px 20px 60px;
+    }
+    .hero h1 { font-size:3rem; color:#FFD700; margin-bottom:12px; }
+    .hero p { font-size:1.1rem; max-width:700px; color:rgba(220,220,220,0.9); margin-bottom:20px; }
+
+    /* ===== TIMELINE ===== */
+    .timeline { position:relative; margin:50px auto; max-width:900px; padding-left:30px; }
+    .timeline::before {
+      content:''; position:absolute; top:0; left:15px; width:3px; height:100%; background:#FFD700;
+    }
+    .timeline-item {
+      position:relative; margin-bottom:50px; padding-left:40px; opacity:0; transform:translateY(30px);
+      transition:all 0.6s ease;
+    }
+    .timeline-item.show { opacity:1; transform:translateY(0); }
+    .timeline-item::before {
+      content:''; position:absolute; left:-12px; top:0; width:24px; height:24px; border-radius:50%;
+      background:#FFD700; border:3px solid #fff;
+    }
+    .timeline-item h3 { color:#00ffff; margin-bottom:6px; font-size:1.4rem; }
+    .timeline-item p { color:rgba(220,220,220,0.9); font-size:1rem; line-height:1.5; }
+    .timeline-item span { display:block; font-size:0.85rem; color:#aaa; margin-bottom:4px; }
+
+    /* ===== FOOTER ===== */
+    footer { margin-top:60px; padding:28px 6%; text-align:center; color:rgba(200,200,200,0.6); font-size:.95rem; }
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:720px){
+      nav { flex-direction:column; gap:12px; padding:12px 20px; }
+      .timeline { padding-left:20px; }
+      .timeline-item::before { left:-10px; width:20px; height:20px; }
+      .timeline::before { left:10px; }
+      .hero h1 { font-size:2.2rem; }
+      .hero p { font-size:1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" target="_blank">Home</a>
+    <a href="about.html" target="_blank">About</a>
+    <a href="skills.html" target="_blank">Skills</a>
+    <a href="journey.html" target="_blank" class="active">Journey</a>
+    <a href="projects.html" target="_blank">Projects</a>
+    <a href="testimonials.html" target="_blank">Testimonials</a>
+    <a href="blog.html" target="_blank">Blog</a>
+    <a href="contact.html" target="_blank">Contact</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>My Journey</h1>
+    <p>From my first lines of code to building full-stack projects and exploring cyber security, each milestone shaped me into the developer I am today.</p>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="timeline">
+    <div class="timeline-item">
+      <span>2019</span>
+      <h3>First Coding Steps</h3>
+      <p>Started learning HTML & CSS, built simple static websites, discovered the joy of creating online content.</p>
+    </div>
+    <div class="timeline-item">
+      <span>2020</span>
+      <h3>Java & Programming</h3>
+      <p>Explored Java and object-oriented programming, completed small projects, and strengthened logical thinking skills.</p>
+    </div>
+    <div class="timeline-item">
+      <span>2021</span>
+      <h3>Cyber Security Basics</h3>
+      <p>Learned network security, ethical hacking principles, and secure coding practices.</p>
+    </div>
+    <div class="timeline-item">
+      <span>2022</span>
+      <h3>Advanced Projects</h3>
+      <p>Developed full-stack projects, interactive websites, and started building my professional portfolio.</p>
+    </div>
+    <div class="timeline-item">
+      <span>2023</span>
+      <h3>Professional Growth</h3>
+      <p>Focused on security, optimizing performance, and learning advanced frameworks & technologies.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>&copy; <span id="year"></span> Mohsin Noor — Built with ❤</footer>
+
+  <!-- JS -->
+  <script>
+    const items = document.querySelectorAll('.timeline-item');
+
+    function revealTimeline(){
+      const trigger = window.innerHeight * 0.85;
+      items.forEach(item=>{
+        const rect = item.getBoundingClientRect();
+        if(rect.top < trigger){ item.classList.add('show'); }
+      });
+    }
+
+    window.addEventListener('scroll', revealTimeline);
+    window.addEventListener('load', ()=>{
+      revealTimeline();
+      document.getElementById('year').textContent = new Date().getFullYear();
+    });
+
+    // Navbar active link
+    const navLinks = document.querySelectorAll('nav a');
+    navLinks.forEach(link=>{
+      link.addEventListener('click', ()=>{
+        navLinks.forEach(l=>l.classList.remove('active'));
+        link.classList.add('active');
+      });
+    });
+  </script>
+
+</body>
+</html>

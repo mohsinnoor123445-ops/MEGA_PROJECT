@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Skills - Mohsin Noor</title>
+  <style>
+    /* ===== Reset & base ===== */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Poppins',sans-serif;
+      background:#0a0a0a;color:#fff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-y:auto; /* allow scrolling */
+      line-height:1.4;
+    }
+
+    /* ===== background video + overlay ===== */
+    .background-video {
+      position:fixed;inset:0;width:100vw;height:100vh;object-fit:cover;z-index:-2;
+      filter:brightness(0.45) contrast(1.05);
+    }
+    .overlay {
+      position:fixed;inset:0;background:linear-gradient(135deg, rgba(2,6,23,0.45), rgba(0,0,0,0.65));
+      z-index:-1;
+    }
+
+    /* ===== nav ===== */
+    nav{
+      position:fixed;top:20px;left:50%;transform:translateX(-50%);
+      background:rgba(255,255,255,0.04);backdrop-filter:blur(8px);
+      border-radius:50px;padding:12px 28px;z-index:10;
+      display:flex;gap:28px;align-items:center;max-width:1100px;width:86%;
+      justify-content:center;border:1px solid rgba(255,255,255,0.06);
+    }
+    .logo {
+ font-size: 1.5rem;
+ font-weight: 600;
+ color: #00ffff; /* Yellow Accent */
+ text-shadow: 0 0 10px #00ffff; /* Yellow Glow */
+ letter-spacing: 1px;
+ cursor: pointer;
+ opacity: 0;
+ animation: fadeSlide 1s ease forwards 0.2s; 
+}
+
+/* === Nav Links === */
+.nav-list {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-list a {
+  position: relative;
+  text-decoration: none;
+  color: #ccc;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeSlide 0.8s ease forwards;
+}
+
+/* === Staggered animation delay === */
+.nav-list a:nth-child(1) { animation-delay: 0.3s; }
+.nav-list a:nth-child(2) { animation-delay: 0.4s; }
+.nav-list a:nth-child(3) { animation-delay: 0.5s; }
+.nav-list a:nth-child(4) { animation-delay: 0.6s; }
+.nav-list a:nth-child(5) { animation-delay: 0.7s; }
+.nav-list a:nth-child(6) { animation-delay: 0.8s; }
+.nav-list a:nth-child(7) { animation-delay: 0.9s; }
+.nav-list a:nth-child(8) { animation-delay: 1s; }
+
+/* === Hover Animation === */
+.nav-list a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: #00ffff;
+  transition: width 0.4s ease;
+  border-radius: 2px;
+}
+
+.nav-list a:hover::after {
+  width: 100%;
+}
+
+.nav-list a:hover {
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffff;
+}
+
+    main{
+      position:relative;z-index:1;
+      padding:120px 6% 80px; /* top padding for fixed nav */
+      min-height:100vh;
+      display:flex;flex-direction:column;align-items:center;
+      gap:36px;
+    }
+
+    /* ===== heading ===== */
+    .skills-heading{
+      text-align:center;max-width:980px;
+    }
+    .skills-heading h1{color:#f8c300;font-size:2.6rem;margin-bottom:8px}
+    .skills-heading p{color:#d0d0d0;max-width:760px;margin:0 auto 18px;font-size:1rem}
+
+    /* ===== inner card (optional wrapper) ===== */
+    .about-inner {
+      width:100%;
+      max-width:1200px;
+      margin: 0 auto;
+      background: rgba(10,10,20,0.65);
+      border-radius:16px;
+      padding:32px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+      border:1px solid rgba(255,255,255,0.04);
+    }
+
+    /* ===== skills grid ===== */
+    .skills-grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap:28px;
+      align-items:stretch;
+      padding:8px;
+    }
+
+    /* ===== each skill card (3D flip) ===== */
+    .skill-card{
+      width:100%;
+      height:240px;
+      perspective:1000px;
+      display:flex;
+    }
+    .card-inner{
+      width:100%;height:100%;position:relative;transform-style:preserve-3d;
+      transition:transform .7s cubic-bezier(.2,.9,.2,1);
+      border-radius:14px;
+    }
+    .skill-card:hover .card-inner{ transform: rotateY(180deg) translateY(-6px); box-shadow:0 18px 40px rgba(0,0,0,0.6); }
+
+    .card-face {
+      position:absolute;inset:0;border-radius:14px;
+      backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.03);
+      transition:transform .3s;
+    }
+
+    .card-front{
+      background:linear-gradient(180deg, rgba(255,215,0,0.03), rgba(22,22,22,0.7));
+    }
+    .card-front img{ width:96px;height:96px; filter: drop-shadow(0 8px 18px rgba(248,195,0,0.12)); }
+
+    .card-back{
+      transform:rotateY(180deg);
+      padding:18px;
+      gap:8px;
+      background:linear-gradient(180deg, rgba(248,195,0,0.06), rgba(22,22,22,0.75));
+    }
+    .card-back h3{ color:#f8c300;margin-bottom:6px }
+    .card-back p{ color:#e9e9e9;font-size:0.92rem;margin-bottom:12px;text-align:center;padding:0 6px }
+
+    /* progress bar */
+    .progress-bar{ width:90%; height:12px; background:#232323;border-radius:999px; overflow:hidden }
+    .progress{ width:0; height:100%; background: linear-gradient(90deg,#f8c300,#ffd54d); box-shadow:0 6px 20px rgba(248,195,0,0.12); transition: width 1.2s ease }
+
+    .percent{ margin-top:8px;color:#fff;font-weight:700 }
+
+    /* responsive tweaks */
+    @media(max-width:900px){
+      .card-front img{ width:80px;height:80px }
+      .skill-card{ height:210px }
+    }
+    @media(max-width:520px){
+      nav{ padding:10px 16px; width:94% }
+      main{ padding:100px 4% 60px }
+      .skill-card{ height:190px }
+    }
+    /* === Active Link === */
+.nav-list a.active {
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffff;
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- Background video (replace filename) -->
+  <video class="background-video" autoplay muted loop playsinline>
+    <source src="./video/PinDown.io_@spencerchamberl_1762356617.mp4" type="video/mp4">
+  </video>
+  <div class="overlay"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">Mohsin.</div>
+    <div class="nav-list" role="navigation" aria-label="Main">
+      <a href="index.html" target="_blank">Home</a>
+      <a href="about.html" target="_blank">About</a>
+      <a href="skills.html" target="_blank">Skills</a>
+      <a href="journey.html" target="_blank">Journey</a>
+      <a href="projects.html" target="_blank">Projects</a>
+      <a href="testimonials.html" target="_blank">Testimonials</a>
+      <a href="blog.html" target="_blank">Blog</a>
+      <a href="contact.html" target="_blank">Contact</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="skills-heading">
+      <h1>What I Do</h1>
+      <p>Passionate Computer Science student & Web Developer. Hover any card to see details and animated skill percentage.</p>
+    </div>
+
+    <!-- white/blurred container covering page width but centered -->
+    <div class="about-inner">
+      <div class="skills-grid">
+        <!-- card template: data-percent numeric -->
+        <div class="skill-card" data-percent="96" data-name="HTML">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML">
+            </div>
+            <div class="card-face card-back">
+              <h3>HTML</h3>
+              <p>Semantic HTML5, accessibility, SEO-friendly structure and clean markup.</p>
+              <div class="progress-bar"><div class="progress"></div></div>
+              <div class="percent">0%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-card" data-percent="90" data-name="CSS">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS">
+            </div>
+            <div class="card-face card-back">
+              <h3>CSS</h3>
+              <p>Responsive layouts, animations, Grid & Flexbox, design systems and utility classes.</p>
+              <div class="progress-bar"><div class="progress"></div></div>
+              <div class="percent">0%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-card" data-percent="88" data-name="JavaScript">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JS">
+            </div>
+            <div class="card-face card-back">
+              <h3>JavaScript</h3>
+              <p>DOM, ES6+, fetch/async, event-driven UI and lightweight animations.</p>
+              <div class="progress-bar"><div class="progress"></div></div>
+              <div class="percent">0%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-card" data-percent="80" data-name="Cyber Security">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" alt="Cyber">
+            </div>
+            <div class="card-face card-back">
+              <h3>Cyber Security</h3>
+              <p>Basics of pentesting, secure coding, vulnerability awareness and hardening.</p>
+              <div class="progress-bar"><div class="progress"></div></div>
+              <div class="percent">0%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-card" data-percent="94" data-name="Logo Design">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="https://cdn-icons-png.flaticon.com/512/888/888879.png" alt="Logo">
+            </div>
+            <div class="card-face card-back">
+              <h3>Logo Design</h3>
+              <p>Brand driven logos, vector workflows and concept-to-delivery design.</p>
+              <div class="progress-bar"><div class="progress"></div></div>
+              <div class="percent">0%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-card" data-percent="92" data-name="Graphic Design">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="https://cdn-icons-png.flaticon.com/512/2920/2920244.png" alt="Graphic">
+            </div>
+            <div class="card-face card-back">
+              <h3>Graphic Design</h3>
+              <p>Layouts, typography, color theory and marketing visual assets.</p>
+              <div class="progress-bar"><div class="progress"></div></div>
+              <div class="percent">0%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-card" data-percent="85" data-name="GitHub">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
+            </div>
+            <div class="card-face card-back">
+              <h3>GitHub</h3>
+              <p>Version control, PR workflow, branches and collaborative dev practices.</p>
+              <div class="progress-bar"><div class="progress"></div></div>
+              <div class="percent">0%</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-card" data-percent="86" data-name="Node.js">
+          <div class="card-inner">
+            <div class="card-face card-front">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node">
+            </div>
+            <div class="card-face card-back">
+              <h3>Node.js</h3>
+              <p>Backend basics, APIs, npm tooling and simple real-time features.</p>
+              <div class="progress-bar"><div class="progress"></div></div>
+              <div class="percent">0%</div>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- /.skills-grid -->
+    </div> <!-- /.about-inner -->
+
+  </main>
+
+  <footer style="text-align:center;padding:24px 0;color:#cfcfcf">© <span id="year"></span> Mohsin Noor</footer>
+
+  <script>
+    // set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // animate progress on hover (use numeric parseInt)
+    document.querySelectorAll('.skill-card').forEach(card => {
+      const progressEl = card.querySelector('.progress');
+      const percentEl = card.querySelector('.percent');
+      const target = parseInt(card.dataset.percent, 10) || 0;
+      let intervalId = null;
+
+      card.addEventListener('mouseenter', () => {
+        // fill bar
+        progressEl.style.width = target + '%';
+        // animate number
+        let current = 0;
+        clearInterval(intervalId);
+        intervalId = setInterval(() => {
+          if (current >= target) { clearInterval(intervalId); return; }
+          current++;
+          percentEl.textContent = current + '%';
+        }, Math.max(8, 600/Math.max(1,target))); // smoother timing
+      });
+
+      card.addEventListener('mouseleave', () => {
+        progressEl.style.width = '0%';
+        percentEl.textContent = '0%';
+        clearInterval(intervalId);
+      });
+    });
+
+    // optional: reveal animation when grid enters viewport
+    const grid = document.querySelector('.skills-grid');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          document.querySelectorAll('.card-inner').forEach(ci => ci.style.opacity = 1);
+          obs.disconnect();
+        }
+      });
+    }, {threshold:0.2});
+    if (grid) obs.observe(grid);
+     // Navbar Active Link Effect
+  const navLinks = document.querySelectorAll('.nav-list a');
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+    });
+  });
+
+  </script>
+</body>
+</html>
